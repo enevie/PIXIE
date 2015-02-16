@@ -1,6 +1,6 @@
 # PIXIE
 Telerik Akademy Teamwork:
-- йосиф Енев (joseph)
+- Йосиф Енев (joseph)
 - Мартин Вешев (vesheff)
 - Пламен Костадинов (plamenti)
 - Александър Овчаров (LaForce)
