@@ -1,7 +1,12 @@
 # PIXIE
 Telerik Akademy Teamwork:
-- enevie, plamenti, mursalevo, GasanNazer
-
+- йосиф Енев (joseph)
+- Мартин Вешев (vesheff)
+- Пламен Костадинов (plamenti)
+- Александър Овчаров (LaForce)
+- Слави Трайков (mursalevo)
+- Ивайло Граматиков (zaiko)
+- Гасан Назер (Gasan)
 
 ##Project Discription
 BATKA game - simple console game.
