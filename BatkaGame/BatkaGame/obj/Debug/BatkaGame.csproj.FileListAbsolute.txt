@@ -1,0 +1,6 @@
+D:\Telerik Academy\PIXIE\BatkaGame\BatkaGame\bin\Debug\BatkaGame.exe.config
+D:\Telerik Academy\PIXIE\BatkaGame\BatkaGame\bin\Debug\BatkaGame.exe
+D:\Telerik Academy\PIXIE\BatkaGame\BatkaGame\bin\Debug\BatkaGame.pdb
+D:\Telerik Academy\PIXIE\BatkaGame\BatkaGame\obj\Debug\BatkaGame.csprojResolveAssemblyReference.cache
+D:\Telerik Academy\PIXIE\BatkaGame\BatkaGame\obj\Debug\BatkaGame.exe
+D:\Telerik Academy\PIXIE\BatkaGame\BatkaGame\obj\Debug\BatkaGame.pdb
