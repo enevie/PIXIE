@@ -4,3 +4,6 @@ D:\Telerik Academy\PIXIE\BatkaGame\BatkaGame\bin\Debug\BatkaGame.pdb
 D:\Telerik Academy\PIXIE\BatkaGame\BatkaGame\obj\Debug\BatkaGame.csprojResolveAssemblyReference.cache
 D:\Telerik Academy\PIXIE\BatkaGame\BatkaGame\obj\Debug\BatkaGame.exe
 D:\Telerik Academy\PIXIE\BatkaGame\BatkaGame\obj\Debug\BatkaGame.pdb
+C:\Users\Toshiba\Documents\Visual Studio 2013\Projects\CSharpIITeamWork\PIXIE\BatkaGame\BatkaGame\bin\Debug\BatkaGame.exe.config
+C:\Users\Toshiba\Documents\Visual Studio 2013\Projects\CSharpIITeamWork\PIXIE\BatkaGame\BatkaGame\obj\Debug\BatkaGame.exe
+C:\Users\Toshiba\Documents\Visual Studio 2013\Projects\CSharpIITeamWork\PIXIE\BatkaGame\BatkaGame\obj\Debug\BatkaGame.pdb
