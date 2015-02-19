@@ -8,19 +8,28 @@ namespace BatkaGame
 {
     class BatkaGame
     {
+
+        const int ConsoleHeight = 100;
+        const int ConsoleWidth = 50;
+        public static Batka batka;
         static void Main(string[] args)
         {
-            Console.SetBufferSize(100, 45);
-            Console.SetWindowSize(100, 45);
-            Console.WriteLine("Test");
 
-            while (true)
-            {
+            Random rand = new Random();
+            Initiallize(rand);
 
-                //the game!
-                Console.Clear();
-                
-            }
+
+            //while (true)
+            //{
+
+
+
+            //}
+        }
+
+        private static void Initiallize(Random rand)
+        {
+            batka = new Batka(ConsoleWidth / 2, ConsoleHeight / 2);           
         }
     }
 }
