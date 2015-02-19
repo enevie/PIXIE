@@ -41,9 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BadPill.cs" />
     <Compile Include="Batka.cs" />
     <Compile Include="BatkaGame.cs" />
+    <Compile Include="GoodPill.cs" />
     <Compile Include="IDraw.cs" />
+    <Compile Include="Pill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
