@@ -8,7 +8,7 @@ namespace BatkaGame
 {
     class Menu
     {
-        public static int ChooseListBoxItem(string[] items, int ucol, int urow, ConsoleColor back, ConsoleColor fore)
+        public static int ChooseComands(string[] items, int ucol, int urow, ConsoleColor back, ConsoleColor fore)
         {
             int numItems = items.Length;
             int maxLength = items[0].Length;

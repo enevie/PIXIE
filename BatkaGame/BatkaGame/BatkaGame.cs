@@ -54,16 +54,15 @@ namespace BatkaGame
 
         private static void GameMenu()
         {
-            //Console.SetBufferSize(80, 25);
             Console.SetWindowSize(80, 25);
             Console.TreatControlCAsInput = false;
             Console.CancelKeyPress += new ConsoleCancelEventHandler(BreakHandler);
             Console.Clear();
             Console.CursorVisible = false;
             Random rand = new Random();
-            string[] months = { "Start", "Quit" };
+            string[] comands = { "Start", "Quit" };
             Menu.WriteColorString("Choose using down and up arrow keys and press enter", 12, 20, ConsoleColor.Black, ConsoleColor.White);
-            int choice = Menu.ChooseListBoxItem(months, 34, 3, ConsoleColor.Black, ConsoleColor.White);
+            int choice = Menu.ChooseComands(comands, 34, 3, ConsoleColor.Black, ConsoleColor.White);
             if (choice == 1)
             {
                 Menu.CleanUp();
