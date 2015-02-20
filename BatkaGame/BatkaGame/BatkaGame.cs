@@ -32,10 +32,11 @@ namespace BatkaGame
                 new Direction(0,-1),
                 new Direction(1,0)
             };
-
+            GameMenu();
+            /*
             Random rand = new Random();
             // creates all the objects we needed at the first initiallization - batka, badPill, goodPill
-            Initiallize(rand);
+            Initiallize(rand);*/
 
             while (true)
             {
@@ -49,6 +50,34 @@ namespace BatkaGame
                 GoodPillsDraw(goodPills);
                 BadPillsDraw(badPills);
             }
+        }
+
+        private static void GameMenu()
+        {
+            //Console.SetBufferSize(80, 25);
+            Console.SetWindowSize(80, 25);
+            Console.TreatControlCAsInput = false;
+            Console.CancelKeyPress += new ConsoleCancelEventHandler(BreakHandler);
+            Console.Clear();
+            Console.CursorVisible = false;
+            Random rand = new Random();
+            string[] months = { "Start", "Quit" };
+            Menu.WriteColorString("Choose using down and up arrow keys and press enter", 12, 20, ConsoleColor.Black, ConsoleColor.White);
+            int choice = Menu.ChooseListBoxItem(months, 34, 3, ConsoleColor.Black, ConsoleColor.White);
+            if (choice == 1)
+            {
+                Menu.CleanUp();
+                Initiallize(rand);
+            }
+            else
+                System.Environment.Exit(0);
+            
+        }
+
+
+        private static void BreakHandler(object sender, ConsoleCancelEventArgs args)
+        {
+            Menu.CleanUp();
         }
 
         private static void BadPillsDraw(LinkedList<BadPill> badPills)
@@ -69,6 +98,7 @@ namespace BatkaGame
 
         private static void Initiallize(Random rand)
         {
+            Console.SetWindowSize(100, 50);
             batka = new Batka(ConsoleWidth / 2, ConsoleHeight / 2);
             BadPill badPill = new BadPill(rand.Next(0, ConsoleWidth - 1), rand.Next(0, ConsoleHeight - 1));
             GoodPill goodPill = new GoodPill(rand.Next(0, ConsoleWidth - 1), rand.Next(0, ConsoleHeight - 1));
