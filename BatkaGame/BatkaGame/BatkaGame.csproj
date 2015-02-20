@@ -44,6 +44,7 @@
     <Compile Include="BadPill.cs" />
     <Compile Include="Batka.cs" />
     <Compile Include="BatkaGame.cs" />
+    <Compile Include="Direction.cs" />
     <Compile Include="GoodPill.cs" />
     <Compile Include="IDraw.cs" />
     <Compile Include="Pill.cs" />
