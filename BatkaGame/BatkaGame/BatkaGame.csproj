@@ -47,6 +47,7 @@
     <Compile Include="Direction.cs" />
     <Compile Include="GoodPill.cs" />
     <Compile Include="IDraw.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="Pill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
