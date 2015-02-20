@@ -44,7 +44,7 @@ namespace BatkaGame
                 MoveBatka(batka, currentDirrection, directionCoords);
 
                 Console.Clear();
-                
+
                 // After Console.Clear() we have to draw the objects. Batka is the same one, the pills will be a lot. For now there is only one pill in each collection
                 batka.Draw();
                 GoodPillsDraw(goodPills);
@@ -62,20 +62,28 @@ namespace BatkaGame
             Console.CursorVisible = false;
             Random rand = new Random();
 
-            string[] comands = { "Start", "Quit" };
-            Menu.WriteColorString("Choose using down and up arrow keys and press enter", 12, 20, ConsoleColor.Black, ConsoleColor.White);
-
-            int choice = Menu.ChooseComands(comands, 34, 3, ConsoleColor.Black, ConsoleColor.White);
+            string menuMessage = "Choose using down and up arrow keys and press enter";
+            int xOffset = (ConsoleHeight - menuMessage.Length) / 2;
+            int yOffset = ConsoleWidth / 3;
+            Menu.WriteColorString(menuMessage, xOffset, yOffset, ConsoleColor.Black, ConsoleColor.White);
+            string gameName = "   BATKA GAME   ";
+            xOffset = (ConsoleHeight - gameName.Length) / 2;
+            yOffset = ConsoleWidth / 10;
+            Menu.WriteColorString(gameName, xOffset, yOffset, ConsoleColor.Black, ConsoleColor.White);
+            string[] commands = { "Start", "Quit" };
+            xOffset = (ConsoleHeight - commands[0].Length*2) / 2;
+            yOffset = ConsoleWidth / 6;
+            int choice = Menu.ChooseComands(commands, xOffset, yOffset, ConsoleColor.Black, ConsoleColor.White);
             if (choice == 1)
             {
                 Menu.CleanUp();
                 Initiallize(rand);
             }
             else
+            {
                 System.Environment.Exit(0);
-            
+            }
         }
-
 
         private static void BreakHandler(object sender, ConsoleCancelEventArgs args)
         {
