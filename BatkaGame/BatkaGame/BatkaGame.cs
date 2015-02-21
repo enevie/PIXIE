@@ -52,6 +52,7 @@ namespace BatkaGame
             }
         }
 
+        // Creates menu of the game
         private static void GameMenu()
         {
             //Console.SetBufferSize(ConsoleHeight, ConsoleWidth);
