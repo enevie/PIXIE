@@ -145,8 +145,19 @@ namespace BatkaGame
             Direction nextDirection = directionCoords[(int)currentDirrection];
 
             // calculate the new coordinates of batka after the movement 
+            
             myBatka.XCoord += nextDirection.Row; // now batka have new row(xCoord) position
+            //checks for the bounds
+            if (myBatka.XCoord < 0 || myBatka.XCoord >= ConsoleWidth-1)
+            {
+                myBatka.XCoord -= nextDirection.Row;
+            }
+            //checks for the bounds
             myBatka.YCoord += nextDirection.Col; // now batka have new col(yCoord) position
+            if (myBatka.YCoord < 0 || myBatka.YCoord >= ConsoleHeight - 1)
+            {
+                myBatka.YCoord -= nextDirection.Col;
+            }
         }
     }
 }

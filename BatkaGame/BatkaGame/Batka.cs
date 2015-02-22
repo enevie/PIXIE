@@ -26,7 +26,7 @@ namespace BatkaGame
             }
             set
             {
-                if (value < 0)
+                if (value < -1)
                 {
                     throw new ArgumentException("xCoord must be >= 0");
                 }
@@ -45,7 +45,7 @@ namespace BatkaGame
             }
             set
             {
-                if (value < 0)
+                if (value < -1)
                 {
                     throw new ArgumentException("yCoord must be >= 0");
                 }
