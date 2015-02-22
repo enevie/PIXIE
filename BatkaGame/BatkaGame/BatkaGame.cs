@@ -109,6 +109,7 @@ namespace BatkaGame
 
         private static void Initiallize(Random rand)
         {
+            
             Console.SetWindowSize(100, 50);
             batka = new Batka(ConsoleWidth / 2, ConsoleHeight / 2);
             BadPill badPill = new BadPill(rand.Next(0, ConsoleWidth - 1), rand.Next(0, ConsoleHeight - 1));
@@ -117,6 +118,7 @@ namespace BatkaGame
             goodPills = new List<GoodPill>();
             badPills.Add(badPill);
             goodPills.Add(goodPill);
+            Time.StartTimer();
         }
         private static void MoveBatka(Batka myBatka, Directions currentDirrection, Direction[] directionCoords)
         {
