@@ -12,8 +12,8 @@ namespace BatkaGame
         const int ConsoleHeight = 100;
         const int ConsoleWidth = 50;
         public static Batka batka;
-        public static LinkedList<BadPill> badPills;
-        public static LinkedList<GoodPill> goodPills;
+        public static List<BadPill> badPills;
+        public static List<GoodPill> goodPills;
 
         // new code from 20.02.2015 02:45
         public enum Directions { Right, Up, Left, Down }; // this Enum indcates directions of the move. Accept as an array[] - array[0]-Right, array[1]-Up, array[2]-Left, array[3]-Down
@@ -91,7 +91,7 @@ namespace BatkaGame
             Menu.CleanUp();
         }
 
-        private static void BadPillsDraw(LinkedList<BadPill> badPills)
+        private static void BadPillsDraw(List<BadPill> badPills)
         {
             foreach (var badPill in badPills)
             {
@@ -99,7 +99,7 @@ namespace BatkaGame
             }
         }
 
-        private static void GoodPillsDraw(LinkedList<GoodPill> goodPills)
+        private static void GoodPillsDraw(List<GoodPill> goodPills)
         {
             foreach (var goodPill in goodPills)
             {
@@ -113,10 +113,10 @@ namespace BatkaGame
             batka = new Batka(ConsoleWidth / 2, ConsoleHeight / 2);
             BadPill badPill = new BadPill(rand.Next(0, ConsoleWidth - 1), rand.Next(0, ConsoleHeight - 1));
             GoodPill goodPill = new GoodPill(rand.Next(0, ConsoleWidth - 1), rand.Next(0, ConsoleHeight - 1));
-            badPills = new LinkedList<BadPill>();
-            goodPills = new LinkedList<GoodPill>();
-            badPills.AddFirst(badPill);
-            goodPills.AddFirst(goodPill);
+            badPills = new List<BadPill>();
+            goodPills = new List<GoodPill>();
+            badPills.Add(badPill);
+            goodPills.Add(goodPill);
         }
         private static void MoveBatka(Batka myBatka, Directions currentDirrection, Direction[] directionCoords)
         {
