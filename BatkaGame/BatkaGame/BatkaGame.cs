@@ -20,45 +20,7 @@ namespace BatkaGame
         public enum Directions { Right, Up, Left, Down }; // this Enum indcates directions of the move. Accept as an array[] - array[0]-Right, array[1]-Up, array[2]-Left, array[3]-Down
         public static Directions currentDirrection; // we'll need this in the game when batka have to move without arrows
 
-        public static void GameScore(int currentSum)
-        {
-            var reader = new StreamReader(@"..\..\gamescore.txt");
-
-            string[] rawResults = reader.ReadToEnd().Split('\n');
-            int[] results = new int[rawResults.Length];
-
-            for (int i = 0; i < results.Length; i++)
-            {
-                if (rawResults[i] == string.Empty)
-                {
-                    continue;
-                }
-                results[i] = int.Parse(rawResults[i]);
-            }
-            Array.Sort(results);
-            Array.Reverse(results);
-            reader.Close();
-
-            var writer = new StreamWriter(@"..\..\gamescore.txt", true);
-            int bestSum = results[0];
-
-            if (currentSum == bestSum)
-            {
-                Console.WriteLine("Your are equal to BEST BATKA! {0} points",currentSum);
-            }
-            else if (currentSum > bestSum)
-            {
-                using (writer)
-                {
-                    Console.WriteLine("GOOD BATKAAA! New high score! {0} points", currentSum);
-                    writer.WriteLine(currentSum);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Your result is " + currentSum);
-            }
-        }
+       
 
 
         static void Main(string[] args)
@@ -204,6 +166,45 @@ namespace BatkaGame
             if (myBatka.YCoord < 0 || myBatka.YCoord >= ConsoleHeight - 1)
             {
                 myBatka.YCoord -= nextDirection.Col;
+            }
+        }
+        public static void GameScore(int currentSum)
+        {
+            var reader = new StreamReader(@"..\..\gamescore.txt");
+
+            string[] rawResults = reader.ReadToEnd().Split('\n');
+            int[] results = new int[rawResults.Length];
+
+            for (int i = 0; i < results.Length; i++)
+            {
+                if (rawResults[i] == string.Empty)
+                {
+                    continue;
+                }
+                results[i] = int.Parse(rawResults[i]);
+            }
+            Array.Sort(results);
+            Array.Reverse(results);
+            reader.Close();
+
+            var writer = new StreamWriter(@"..\..\gamescore.txt", true);
+            int bestSum = results[0];
+
+            if (currentSum == bestSum)
+            {
+                Console.WriteLine("Your are equal to BEST BATKA! {0} points", currentSum);
+            }
+            else if (currentSum > bestSum)
+            {
+                using (writer)
+                {
+                    Console.WriteLine("GOOD BATKAAA! New high score! {0} points", currentSum);
+                    writer.WriteLine(currentSum);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Your result is " + currentSum);
             }
         }
     }
