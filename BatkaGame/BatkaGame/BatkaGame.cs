@@ -20,23 +20,9 @@ namespace BatkaGame
         public enum Directions { Right, Up, Left, Down }; // this Enum indcates directions of the move. Accept as an array[] - array[0]-Right, array[1]-Up, array[2]-Left, array[3]-Down
         public static Directions currentDirrection; // we'll need this in the game when batka have to move without arrows
 
-        public static int SavingBestScore(int currnetSum)
+        public static void GameScore(int currentSum)
         {
-            StreamReader stream = new StreamReader(@"gamescore.txt");
-
-            using(stream)
-            {
-
-            }           
-
-
-            return 0;
-        }
-
-
-        private static void Results(int currSum)
-        {   
-            var reader = new StreamReader("result.txt");
+            var reader = new StreamReader(@"..\..\gamescore.txt");
 
             string[] rawResults = reader.ReadToEnd().Split('\n');
             int[] results = new int[rawResults.Length];
@@ -53,24 +39,24 @@ namespace BatkaGame
             Array.Reverse(results);
             reader.Close();
 
-            var writer = new StreamWriter("result.txt", true);
+            var writer = new StreamWriter(@"..\..\gamescore.txt", true);
             int bestSum = results[0];
 
-            if (currSum == bestSum)
+            if (currentSum == bestSum)
             {
-                Console.WriteLine("Your are equal to BEST BATKA!");
+                Console.WriteLine("Your are equal to BEST BATKA! {0} points",currentSum);
             }
-            else if (currSum > bestSum)
+            else if (currentSum > bestSum)
             {
                 using (writer)
                 {
-                    Console.WriteLine("GOOD BATKAAA! New high score! {0} points", currSum);
-                    writer.WriteLine(currSum);
+                    Console.WriteLine("GOOD BATKAAA! New high score! {0} points", currentSum);
+                    writer.WriteLine(currentSum);
                 }
             }
             else
             {
-                Console.WriteLine("Your result is " + currSum);
+                Console.WriteLine("Your result is " + currentSum);
             }
         }
 
@@ -78,7 +64,7 @@ namespace BatkaGame
         static void Main(string[] args)
         {
 
-            Results(100);
+          
             // These are the directions
             // If we need to move Right, we have to increase the col, and the row have to be the same
             // If we need to move Up, we have to decrease the row, and the col have to be the same
