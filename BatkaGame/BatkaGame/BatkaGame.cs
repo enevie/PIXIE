@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,8 +19,66 @@ namespace BatkaGame
         // new code from 20.02.2015 02:45
         public enum Directions { Right, Up, Left, Down }; // this Enum indcates directions of the move. Accept as an array[] - array[0]-Right, array[1]-Up, array[2]-Left, array[3]-Down
         public static Directions currentDirrection; // we'll need this in the game when batka have to move without arrows
+
+        public static int SavingBestScore(int currnetSum)
+        {
+            StreamReader stream = new StreamReader(@"gamescore.txt");
+
+            using(stream)
+            {
+
+            }           
+
+
+            return 0;
+        }
+
+
+        private static void Results(int currSum)
+        {   
+            var reader = new StreamReader("result.txt");
+
+            string[] rawResults = reader.ReadToEnd().Split('\n');
+            int[] results = new int[rawResults.Length];
+
+            for (int i = 0; i < results.Length; i++)
+            {
+                if (rawResults[i] == string.Empty)
+                {
+                    continue;
+                }
+                results[i] = int.Parse(rawResults[i]);
+            }
+            Array.Sort(results);
+            Array.Reverse(results);
+            reader.Close();
+
+            var writer = new StreamWriter("result.txt", true);
+            int bestSum = results[0];
+
+            if (currSum == bestSum)
+            {
+                Console.WriteLine("Your are equal to BEST BATKA!");
+            }
+            else if (currSum > bestSum)
+            {
+                using (writer)
+                {
+                    Console.WriteLine("GOOD BATKAAA! New high score! {0} points", currSum);
+                    writer.WriteLine(currSum);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Your result is " + currSum);
+            }
+        }
+
+
         static void Main(string[] args)
         {
+
+            Results(100);
             // These are the directions
             // If we need to move Right, we have to increase the col, and the row have to be the same
             // If we need to move Up, we have to decrease the row, and the col have to be the same
