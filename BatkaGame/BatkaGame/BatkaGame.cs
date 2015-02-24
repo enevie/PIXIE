@@ -47,7 +47,9 @@ namespace BatkaGame
 
             while (true)
             {
-                // Checks for the user input and changes the coords of the bata. We pass as parameter the only one object batka, the cyrrent direction, and the struct where we hold all direcions coordinates
+                // Checks for the user input and changes the coords of the bata. We pass as parameter the only one object batka, 
+                // the cyrrent direction, and the struct where we hold all direcions coordinates
+                
                 MoveBatka(batka, currentDirrection, directionCoords);
 
                 Console.Clear();
