@@ -9,24 +9,17 @@ namespace BatkaGame
 {
     class BatkaGame
     {
-
         const int ConsoleHeight = 100;
         const int ConsoleWidth = 50;
+        const string fileName = "gamescore.txt";
         public static Batka batka;
         public static List<BadPill> badPills;
         public static List<GoodPill> goodPills;
-
-        // new code from 20.02.2015 02:45
         public enum Directions { Right, Up, Left, Down }; // this Enum indcates directions of the move. Accept as an array[] - array[0]-Right, array[1]-Up, array[2]-Left, array[3]-Down
         public static Directions currentDirrection; // we'll need this in the game when batka have to move without arrows
 
-       
-
-
         static void Main(string[] args)
         {
-
-          
             // These are the directions
             // If we need to move Right, we have to increase the col, and the row have to be the same
             // If we need to move Up, we have to decrease the row, and the col have to be the same
@@ -118,7 +111,6 @@ namespace BatkaGame
 
         private static void Initiallize(Random rand)
         {
-            
             Console.SetWindowSize(100, 50);
             batka = new Batka(ConsoleWidth / 2, ConsoleHeight / 2);
             BadPill badPill = new BadPill(rand.Next(0, ConsoleWidth - 1), rand.Next(0, ConsoleHeight - 1));
@@ -128,6 +120,7 @@ namespace BatkaGame
             badPills.Add(badPill);
             goodPills.Add(goodPill);
             Time.StartTimer();
+            CreateFile(fileName);
         }
         private static void MoveBatka(Batka myBatka, Directions currentDirrection, Direction[] directionCoords)
         {
@@ -207,6 +200,14 @@ namespace BatkaGame
             else
             {
                 Console.WriteLine("Your result is " + currentSum);
+            }
+        }
+
+        private static void CreateFile(string fileName)
+        {
+            if (!File.Exists(fileName))
+            {
+                using (File.Create(fileName)) { }
             }
         }
     }
