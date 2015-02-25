@@ -19,3 +19,9 @@ D:\Marto\Google Drive\Telerik Experience\Team Projects\Pixie New\PIXIE\BatkaGame
 C:\Users\Elina Pavlova\Desktop\PIXIE\BatkaGame\BatkaGame\bin\Debug\BatkaGame.exe.config
 C:\Users\Elina Pavlova\Desktop\PIXIE\BatkaGame\BatkaGame\obj\Debug\BatkaGame.exe
 C:\Users\Elina Pavlova\Desktop\PIXIE\BatkaGame\BatkaGame\obj\Debug\BatkaGame.pdb
+D:\Marto\Google Drive\Telerik Experience\Team Projects\PIXIE\PIXIE\BatkaGame\BatkaGame\bin\Debug\BatkaGame.exe.config
+D:\Marto\Google Drive\Telerik Experience\Team Projects\PIXIE\PIXIE\BatkaGame\BatkaGame\obj\Debug\BatkaGame.exe
+D:\Marto\Google Drive\Telerik Experience\Team Projects\PIXIE\PIXIE\BatkaGame\BatkaGame\obj\Debug\BatkaGame.pdb
+D:\Marto\Google Drive\Telerik Experience\Team Projects\PIXIE\PIXIE\BatkaGame\BatkaGame\bin\Debug\BatkaGame.exe
+D:\Marto\Google Drive\Telerik Experience\Team Projects\PIXIE\PIXIE\BatkaGame\BatkaGame\bin\Debug\BatkaGame.pdb
+D:\Marto\Google Drive\Telerik Experience\Team Projects\PIXIE\PIXIE\BatkaGame\BatkaGame\obj\Debug\BatkaGame.csprojResolveAssemblyReference.cache

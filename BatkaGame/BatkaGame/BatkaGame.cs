@@ -24,8 +24,8 @@ namespace BatkaGame
 
         //TODO: FIX: If БАТКА is on the rightmost column or lowest row and it grows after two seconds, he gets outside the boundaries of the console.
 
-        const int consoleHeight = 50;
-        const int consoleWidth = 50;
+        public static int consoleHeight = Console.LargestWindowHeight;
+        public static int consoleWidth = Console.LargestWindowWidth/2;
 
         const string fileName = "../../gamescore.txt";
 
@@ -38,7 +38,7 @@ namespace BatkaGame
         public static bool isRunning;
         static void Main()
         {
-            Console.SetBufferSize(consoleWidth, consoleHeight);
+            //Console.SetBufferSize(consoleWidth, consoleHeight);
             Console.SetWindowSize(consoleWidth - 1, consoleHeight - 1);
 
             int currentHighScore = GetHighScore();
@@ -157,9 +157,13 @@ namespace BatkaGame
             Console.SetCursorPosition(1, 1);
             Console.Write("HIGH SCORE: {0}\n", currentHighScore);
             Console.Write(new string('-', consoleWidth));
+            //Console.WriteLine(Console.LargestWindowHeight);
+            //Console.WriteLine(Console.LargestWindowWidth);
             Console.SetCursorPosition(consoleWidth - 16, 1);
             Console.Write("YOUR SCORE: {0}\n", currentScore);
             Console.Write(new string('-', consoleWidth));
+
+
         }
 
         //Generate the pills
