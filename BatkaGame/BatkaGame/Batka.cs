@@ -4,6 +4,8 @@ namespace BatkaGame
 {
     class Batka
     {
+        public static int consoleHeight = Console.LargestWindowHeight;
+        public static int consoleWidth = Console.LargestWindowWidth / 2;
         private const int InitialLength = 2;
         private int xCoord;
         private int yCoord;
@@ -30,6 +32,10 @@ namespace BatkaGame
                 {
                     throw new ArgumentException("xCoord must be >= 0");
                 }
+                else if (value > consoleWidth - 1 - sideLength)
+                {
+                    this.xCoord = value - sideLength;
+                }
                 else
                 {
                     this.xCoord = value;
@@ -49,7 +55,11 @@ namespace BatkaGame
                 {
                     throw new ArgumentException("yCoord must be >= 0");
                 }
-                else
+                else if (value > consoleHeight - 1 - sideLength)
+                {
+                    this.yCoord = value - sideLength;
+                }
+                else 
                 {
                     this.yCoord = value;
                 }
@@ -102,6 +112,14 @@ namespace BatkaGame
         }
         public void MakeFat()
         {
+            if (consoleWidth - 1 - sideLength > xCoord)
+            {
+                xCoord--;
+            }
+            if (consoleHeight - 1 - sideLength > yCoord)
+            {
+                yCoord--;
+            }
             this.SideLength++;
         }
         public void MakeSlim()
