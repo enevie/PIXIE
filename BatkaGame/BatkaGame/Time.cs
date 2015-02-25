@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 namespace BatkaGame
 {
+    //CLASS TIME IS NOT USED
     class Time
     {
         private static Thread thread;

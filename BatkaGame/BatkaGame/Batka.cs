@@ -90,14 +90,13 @@ namespace BatkaGame
         {
             for (int row = 0; row < this.SideLength; row++)
             {
-                Console.SetCursorPosition(this.YCoord, this.XCoord + row);
-                int innerColCoord = 0;
+                Console.SetCursorPosition(this.XCoord, this.YCoord + row);
 
                 for (int col = 0; col < this.SideLength; col++)
                 {
-                    Console.SetCursorPosition(this.YCoord + innerColCoord, this.XCoord + row);
+                    Console.SetCursorPosition(this.XCoord + col, this.YCoord + row);
                     Console.Write(this.Symbol);
-                    innerColCoord++;
+                    
                 }
             }
         }

@@ -3,84 +3,213 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BatkaGame
 {
     class BatkaGame
     {
-        const int ConsoleHeight = 100;
-        const int ConsoleWidth = 50;
-        const string fileName = "gamescore.txt";
+        /*DONE!
+        CLASS TIME IS NOT USED
+        Changed movement logic.
+        Generates pills.
+        Collision detection.
+        Destroy eated pills.
+        Makes the БАТКА bigger every 2 seconds.
+        If БАТКА is bigger than 5x5 GAME OVER!
+        Score implemented. Every good pill gives 5 points. Every bad takes away 5 points.
+        High score. Gets it from the file gamescore.txt
+         DONE!*/
+
+        //TODO: FIX: If БАТКА is on the rightmost column or lowest row and it grows after two seconds, he gets outside the boundaries of the console.
+
+        const int consoleHeight = 50;
+        const int consoleWidth = 50;
+
+        const string fileName = "../../gamescore.txt";
+
         public static Batka batka;
-        public static List<BadPill> badPills;
-        public static List<GoodPill> goodPills;
-        public enum Directions { Right, Up, Left, Down }; // this Enum indcates directions of the move. Accept as an array[] - array[0]-Right, array[1]-Up, array[2]-Left, array[3]-Down
-        public static Directions currentDirrection; // we'll need this in the game when batka have to move without arrows
+        public static List<Pill> pillsList = new List<Pill>();
 
-        static void Main(string[] args)
+        public static int timeToFat;
+        public static int timer;
+        public static int speed;
+        public static bool isRunning;
+        static void Main()
         {
-            // These are the directions
-            // If we need to move Right, we have to increase the col, and the row have to be the same
-            // If we need to move Up, we have to decrease the row, and the col have to be the same
-            // If we need to move Left, we have to decrease the column, the row have to be the same
-            // If we need to move Down, we have to increase the row, the col have to be the same
-            Direction[] directionCoords = new Direction[]   
-            {
-                new Direction(0,1),
-                new Direction(-1,0),
-                new Direction(0,-1),
-                new Direction(1,0)
-            };
-            GameMenu();
-            /*
-            Random rand = new Random();
-            // creates all the objects we needed at the first initiallization - batka, badPill, goodPill
-            Initiallize(rand);*/
+            Console.SetBufferSize(consoleWidth, consoleHeight);
+            Console.SetWindowSize(consoleWidth - 1, consoleHeight - 1);
 
-            while (true)
+            int currentHighScore = GetHighScore();
+            int currentScore = 0;
+
+            GameMenu();
+
+            //New thread for movement of БАТКА
+            Thread threadMovement = new Thread(GeneratePills);
+            threadMovement.Start();
+
+            while (isRunning)
             {
-                // Checks for the user input and changes the coords of the bata. We pass as parameter the only one object batka, 
-                // the cyrrent direction, and the struct where we hold all direcions coordinates
                 
-                MoveBatka(batka, currentDirrection, directionCoords);
+                CountdownToFat(timer);
+                timer += speed;
+
+                Thread.Sleep(speed);
+                MoveBatka();
+
+                currentScore = Score(currentScore);
 
                 Console.Clear();
 
-                // After Console.Clear() we have to draw the objects. Batka is the same one, the pills will be a lot. For now there is only one pill in each collection
+                //If БАТКА bacame like Arnold? GAME OVER!
+                CheckIfBatkaIsArnold();
+
+                //Draw info
+                DrawInfo(currentHighScore, currentScore);
+                //Draw pill
+                DrawPills();
+
+                //Draw БАТКА
                 batka.Draw();
-                GoodPillsDraw(goodPills);
-                BadPillsDraw(badPills);
+            }
+
+            Console.Clear();
+            WriteHighScore(currentHighScore, currentScore);
+            DrawInfo(currentHighScore, currentScore);
+            GameScore(currentHighScore, currentScore);
+            Console.SetCursorPosition(0, consoleHeight - 5);
+            Console.Write(new string('-', consoleWidth - 1) + "\nPress any key to QUIT!\nPress ENTER to RESTART!");
+            RestartOrQuit();
+            
+            
+        }
+        //Choose to restart or quit the game
+        public static void RestartOrQuit()
+        {
+            if (Console.ReadKey().Key == ConsoleKey.Enter)
+            {
+                Main();
+            }
+            else if (Console.ReadKey().Key != ConsoleKey.Enter)
+            {
+                return;
+            }
+        }
+        //Check if БАТКА is very big :)
+        public static void CheckIfBatkaIsArnold()
+        {
+            if (batka.SideLength == 5)
+            {
+                isRunning = false;
+                pillsList.Clear();
+            }
+        }
+
+        //Time to get fat
+        private static void CountdownToFat(int time)
+        {
+            if (time == timeToFat)
+            {
+                batka.MakeFat();
+                timer = 0;
+            }
+        }
+
+        //Draw pills
+        private static void DrawPills()
+        {
+            List<Pill> buffer = new List<Pill>();
+
+            buffer.AddRange(pillsList);
+
+            foreach (var item in buffer)
+            {
+                item.Draw();
+            }
+        }
+
+        //Calculate score
+        private static int Score(int currentScore)
+        {
+            var pill = pillsList.FirstOrDefault(p => ((p.XCoord >= batka.XCoord && p.XCoord <= batka.XCoord + batka.SideLength - 1) && (p.YCoord >= batka.YCoord && p.YCoord <= batka.YCoord + batka.SideLength - 1)));
+
+            if (pill != null)
+            {
+                pill.RespondToCollision(batka);
+                if (pill is GoodPill)
+                {
+                    currentScore += 5;
+                }
+                if (pill is BadPill && currentScore > 0)
+                {
+                    currentScore -= 5;
+                }
+                pillsList.Remove(pill);
+            }
+            return currentScore;
+        }
+
+        //Draw info
+        private static void DrawInfo(int currentHighScore, int currentScore)
+        {
+            Console.SetCursorPosition(1, 1);
+            Console.Write("HIGH SCORE: {0}\n", currentHighScore);
+            Console.Write(new string('-', consoleWidth));
+            Console.SetCursorPosition(consoleWidth - 16, 1);
+            Console.Write("YOUR SCORE: {0}\n", currentScore);
+            Console.Write(new string('-', consoleWidth));
+        }
+
+        //Generate the pills
+        private static void GeneratePills()
+        {
+            Random rand = new Random();
+            while (isRunning)
+            {
+                //Thread for the generation of the pills
+                Thread.Sleep(1000);
+                var row = (int)rand.Next(0, consoleWidth - 1);
+                var col = (int)rand.Next(3, consoleHeight - 1);
+
+                var row1 = (int)rand.Next(0, consoleWidth - 1);
+                var col1 = (int)rand.Next(3, consoleHeight - 1);
+
+                BadPill badPill = new BadPill(row, col);
+                GoodPill goodPill = new GoodPill(row1, col1);
+
+                pillsList.Add(badPill);
+
+                pillsList.Add(goodPill);
             }
         }
 
         // Creates menu of the game
         private static void GameMenu()
         {
-            //Console.SetBufferSize(ConsoleHeight, ConsoleWidth);
-            Console.SetWindowSize(ConsoleHeight, ConsoleWidth);
+            
             Console.TreatControlCAsInput = false;
             Console.CancelKeyPress += new ConsoleCancelEventHandler(BreakHandler);
             Console.Clear();
             Console.CursorVisible = false;
-            Random rand = new Random();
 
             string menuMessage = "Choose using down and up arrow keys and press enter";
-            int xOffset = (ConsoleHeight - menuMessage.Length) / 2;
-            int yOffset = ConsoleWidth / 3;
+            int xOffset = (consoleHeight - menuMessage.Length) / 2;
+            int yOffset = consoleWidth / 3;
             Menu.WriteColorString(menuMessage, xOffset, yOffset, ConsoleColor.Black, ConsoleColor.White);
             string gameName = "   BATKA GAME   ";
-            xOffset = (ConsoleHeight - gameName.Length) / 2;
-            yOffset = ConsoleWidth / 10;
+            xOffset = (consoleHeight - gameName.Length) / 2;
+            yOffset = consoleWidth / 10;
             Menu.WriteColorString(gameName, xOffset, yOffset, ConsoleColor.Black, ConsoleColor.White);
             string[] commands = { "Start", "Quit" };
-            xOffset = (ConsoleHeight - commands[0].Length*2) / 2;
-            yOffset = ConsoleWidth / 6;
+            xOffset = (consoleHeight - commands[0].Length * 2) / 2;
+            yOffset = consoleWidth / 6;
             int choice = Menu.ChooseComands(commands, xOffset, yOffset, ConsoleColor.Black, ConsoleColor.White);
             if (choice == 1)
             {
                 Menu.CleanUp();
-                Initiallize(rand);
+                Initiallize();
             }
             else
             {
@@ -93,114 +222,113 @@ namespace BatkaGame
             Menu.CleanUp();
         }
 
-        private static void BadPillsDraw(List<BadPill> badPills)
+        private static void Initiallize()
         {
-            foreach (var badPill in badPills)
-            {
-                badPill.Draw();
-            }
-        }
-
-        private static void GoodPillsDraw(List<GoodPill> goodPills)
-        {
-            foreach (var goodPill in goodPills)
-            {
-                goodPill.Draw();
-            }
-        }
-
-        private static void Initiallize(Random rand)
-        {
-            Console.SetWindowSize(100, 50);
-            batka = new Batka(ConsoleWidth / 2, ConsoleHeight / 2);
-            BadPill badPill = new BadPill(rand.Next(0, ConsoleWidth - 1), rand.Next(0, ConsoleHeight - 1));
-            GoodPill goodPill = new GoodPill(rand.Next(0, ConsoleWidth - 1), rand.Next(0, ConsoleHeight - 1));
-            badPills = new List<BadPill>();
-            goodPills = new List<GoodPill>();
-            badPills.Add(badPill);
-            goodPills.Add(goodPill);
-            Time.StartTimer();
+            isRunning = true;
+            //Game speed
+            speed = 50;
+            //Time to become bigger in milliseconds
+            timeToFat = 2000;
+            //Initialize the timer
+            timer = 0;
             CreateFile(fileName);
+            batka = new Batka(consoleWidth / 2, consoleHeight / 2);
         }
-        private static void MoveBatka(Batka myBatka, Directions currentDirrection, Direction[] directionCoords)
+
+        //Move the БАТКА
+        private static void MoveBatka()
         {
-            ConsoleKeyInfo userInput = Console.ReadKey();
-
-            switch (userInput.Key)
+            if (Console.KeyAvailable)
             {
-                case ConsoleKey.DownArrow:
-                    currentDirrection = Directions.Down;
-                    break;
-                case ConsoleKey.LeftArrow:
-                    currentDirrection = Directions.Left;
-                    break;
-                case ConsoleKey.RightArrow:
-                    currentDirrection = Directions.Right;
-                    break;
-                case ConsoleKey.UpArrow:
-                    currentDirrection = Directions.Up;
-                    break;
-                default: throw new ArgumentException("Invalid key");
-            }
+                ConsoleKeyInfo userInput = Console.ReadKey();
 
-            //  Takes from the array directionCoords the new direction. 
-            // Here it will be used public enum Directions just for clarity - assume that Right==0, Up==1, Left==2, Down==3
-            // and this is an usual array operation - taking a value by its index
-            Direction nextDirection = directionCoords[(int)currentDirrection];
+                while (Console.KeyAvailable)
+                {
+                    userInput = Console.ReadKey();
+                }
 
-            // calculate the new coordinates of batka after the movement 
-            
-            myBatka.XCoord += nextDirection.Row; // now batka have new row(xCoord) position
-            //checks for the bounds
-            if (myBatka.XCoord < 0 || myBatka.XCoord >= ConsoleWidth-1)
-            {
-                myBatka.XCoord -= nextDirection.Row;
-            }
-            //checks for the bounds
-            myBatka.YCoord += nextDirection.Col; // now batka have new col(yCoord) position
-            if (myBatka.YCoord < 0 || myBatka.YCoord >= ConsoleHeight - 1)
-            {
-                myBatka.YCoord -= nextDirection.Col;
+                if (userInput.Key == ConsoleKey.DownArrow && batka.YCoord < consoleHeight - 1)
+                {
+                    batka.YCoord++;
+                }
+
+                if (userInput.Key == ConsoleKey.UpArrow && batka.YCoord > 3)
+                {
+                    batka.YCoord--;
+                }
+
+                if (userInput.Key == ConsoleKey.LeftArrow && batka.XCoord > 0)
+                {
+                    batka.XCoord--;
+                }
+
+                if (userInput.Key == ConsoleKey.RightArrow && batka.XCoord < consoleWidth - 1)
+                {
+                    batka.XCoord++;
+                }
             }
         }
-        public static void GameScore(int currentSum)
-        {
-            var reader = new StreamReader(@"..\..\gamescore.txt");
 
-            string[] rawResults = reader.ReadToEnd().Split('\n');
+        //Gets high score from the file
+        public static int GetHighScore()
+        {
+            StreamReader reader = new StreamReader(@"../../gamescore.txt");
+
+            string[] rawResults = reader.ReadToEnd().Split(new string[] { "\n", string.Empty }, StringSplitOptions.RemoveEmptyEntries);
+            if (rawResults.Length == 0)
+            {
+                return 0;
+            }
             int[] results = new int[rawResults.Length];
 
             for (int i = 0; i < results.Length; i++)
             {
-                if (rawResults[i] == string.Empty)
-                {
-                    continue;
-                }
                 results[i] = int.Parse(rawResults[i]);
             }
             Array.Sort(results);
             Array.Reverse(results);
             reader.Close();
+            int highScore = results[0];
+            return highScore;
 
-            var writer = new StreamWriter(@"..\..\gamescore.txt", true);
-            int bestSum = results[0];
+        }
 
-            if (currentSum == bestSum)
+        //Write high score in the file
+        public static void WriteHighScore(int currentHighScore, int currentScore)
+        {
+            if (currentScore > currentHighScore)
             {
-                Console.WriteLine("Your are equal to BEST BATKA! {0} points", currentSum);
-            }
-            else if (currentSum > bestSum)
-            {
+                var writer = new StreamWriter(@"../../gamescore.txt", true);
                 using (writer)
                 {
-                    Console.WriteLine("GOOD BATKAAA! New high score! {0} points", currentSum);
-                    writer.WriteLine(currentSum);
+                    writer.WriteLine(currentScore);
                 }
+                writer.Close();
+            }
+        }
+
+        //Final Game Score
+        public static void GameScore(int currentHighScore, int currentScore)
+        {
+            
+            
+            Console.SetCursorPosition(0, consoleHeight / 3);
+            Console.WriteLine(new string('-', consoleWidth));
+            
+            
+            if (currentScore == currentHighScore)
+            {
+                Console.WriteLine("ИМА И ДРУГИ БАТКИ КАТО ТЕБ!\n{0} points\n", currentScore);
+            }
+            else if (currentScore > currentHighScore)
+            {
+                Console.WriteLine("БРАО БЕ БАТКААААА!\nВЗИМАШ НАЦЕПИН ЯВНО!\nС ВКУС НА БАХУР!\nNew high score! {0} points\n", currentScore);
             }
             else
             {
-                Console.WriteLine("Your result is " + currentSum);
+                Console.WriteLine("СЛАБА БАТКА!\nResult: {0}\n", currentScore);
             }
+            Console.WriteLine(new string('-', consoleWidth));
         }
 
         private static void CreateFile(string fileName)
@@ -212,3 +340,4 @@ namespace BatkaGame
         }
     }
 }
+

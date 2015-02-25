@@ -7,7 +7,13 @@
             this.XCoord = xCoord;
             this.YCoord = yCoord;
             this.Symbol = symbol;
-            this.Draw();   
+            
+        }
+
+        public override void RespondToCollision(Batka batka)
+        {
+            base.RespondToCollision(batka);   
+            batka.MakeFat();
         }
     }
 }

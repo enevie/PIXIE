@@ -12,7 +12,6 @@ namespace BatkaGame
         int yCoord;
         char symbol;
 
-
         public int XCoord
         {
             get
@@ -63,10 +62,14 @@ namespace BatkaGame
             }
         }
 
-        public void Draw()
+        public virtual void Draw()
         {
-            Console.SetCursorPosition(this.YCoord, this.XCoord);
+            Console.SetCursorPosition(this.XCoord, this.YCoord);
             Console.Write(this.Symbol);
+        }
+
+        public virtual void RespondToCollision(Batka batka)
+        {
         }
     }
 }

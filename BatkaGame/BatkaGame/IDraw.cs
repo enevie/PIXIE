@@ -2,6 +2,7 @@
 {
     interface IDraw
     {
+        //Draw method
         void Draw();
     }
 }
