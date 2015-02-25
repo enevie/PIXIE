@@ -25,7 +25,7 @@ namespace BatkaGame
         //TODO: FIX: If БАТКА is on the rightmost column or lowest row and it grows after two seconds, he gets outside the boundaries of the console.
 
         public static int consoleHeight = Console.LargestWindowHeight;
-        public static int consoleWidth = Console.LargestWindowWidth/2;
+        public static int consoleWidth = Console.LargestWindowWidth / 2;
 
         const string fileName = "../../gamescore.txt";
 
@@ -52,7 +52,7 @@ namespace BatkaGame
 
             while (isRunning)
             {
-                
+
                 CountdownToFat(timer);
                 timer += speed;
 
@@ -82,8 +82,8 @@ namespace BatkaGame
             Console.SetCursorPosition(0, consoleHeight - 5);
             Console.Write(new string('-', consoleWidth - 1) + "\nPress any key to QUIT!\nPress ENTER to RESTART!");
             RestartOrQuit();
-            
-            
+
+
         }
         //Choose to restart or quit the game
         public static void RestartOrQuit()
@@ -192,7 +192,7 @@ namespace BatkaGame
         // Creates menu of the game
         private static void GameMenu()
         {
-            
+
             Console.TreatControlCAsInput = false;
             Console.CancelKeyPress += new ConsoleCancelEventHandler(BreakHandler);
             Console.Clear();
@@ -314,12 +314,13 @@ namespace BatkaGame
         //Final Game Score
         public static void GameScore(int currentHighScore, int currentScore)
         {
-            
-            
+
+
             Console.SetCursorPosition(0, consoleHeight / 3);
             Console.WriteLine(new string('-', consoleWidth));
-            
-            
+
+            Encoding encod = Encoding.GetEncoding("windows-1251");
+            Console.OutputEncoding = encod;
             if (currentScore == currentHighScore)
             {
                 Console.WriteLine("ИМА И ДРУГИ БАТКИ КАТО ТЕБ!\n{0} points\n", currentScore);
