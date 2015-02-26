@@ -90,6 +90,7 @@ namespace BatkaGame
         {
             if (Console.ReadKey().Key == ConsoleKey.Enter)
             {
+                Console.Clear();
                 Main();
             }
             else if (Console.ReadKey().Key != ConsoleKey.Enter)
@@ -319,7 +320,8 @@ namespace BatkaGame
             Console.SetCursorPosition(0, consoleHeight / 3);
             Console.WriteLine(new string('-', consoleWidth));
 
-            Encoding encod = Encoding.GetEncoding("windows-1251");
+            //Encoding encod = Encoding.GetEncoding("windows-1251");
+            Encoding encod = Encoding.Unicode;
             Console.OutputEncoding = encod;
             if (currentScore == currentHighScore)
             {
