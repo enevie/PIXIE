@@ -2,7 +2,7 @@
 
 namespace BatkaGame
 {
-    class Batka
+    class Batka :IDraw
     {
         public static int consoleHeight = Console.LargestWindowHeight;
         public static int consoleWidth = Console.LargestWindowWidth / 2;
